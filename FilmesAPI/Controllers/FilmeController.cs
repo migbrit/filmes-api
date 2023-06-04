@@ -13,26 +13,27 @@ namespace FilmesAPI.Controllers
 
         [Route("addfilme")]
         [HttpPost]
-        public void AddFilme(Filme filme)
+        public IActionResult AddFilme([FromBody] Filme filme)
         {
-            id++;
-            filme.Id = id;
+            filme.Id = id++;
             filmes.Add(filme);
+            return CreatedAtAction(nameof(GetFilmeById), new { id = filme.Id }, filme);
         }
 
         [Route("getfilmes")]
         [HttpGet]
-        public List<Filme> GetFilmes(int skip, int take)
+        public IEnumerable<Filme> GetFilmes(int skip, int take)
         {
             return filmes.Skip(skip).Take(take).ToList();
         }
 
         [Route("getfilme")]
         [HttpGet]
-        public Filme? GetFilmeById(int id)
+        public IActionResult GetFilmeById(int id)
         {
             Filme? filme = filmes.FirstOrDefault(x => x.Id == id);
-            return filme;
+            if(filme == null) return NotFound();
+            return Ok(filme);
         }
 
     }
