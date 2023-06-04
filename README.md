@@ -1,2 +1,3 @@
 # filmes-api
-Simples API para filmes utilizando WEB APIs
+API para filmes em .NET 6, utilizando o conceito de WEB APIs
+- Criação de endpoints para recuperação de dados e inserção de dados
