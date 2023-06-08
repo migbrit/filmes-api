@@ -30,6 +30,21 @@ namespace FilmesAPI.Controllers
             return CreatedAtAction(nameof(GetFilmeById), new { id = filme.Id }, filme);
         }
 
+        [Route("updatefilme")]
+        [HttpPut]
+        public IActionResult UpdateFilme(int id,[FromBody] UpdateFilmeDto filmeDto)
+        {
+            Filme? filme = _context.TbFilmes.Where(x => x.Id == id).FirstOrDefault();
+
+            if(filme == null)
+                return NotFound();
+
+            _mapper.Map(filmeDto, filme);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
         [Route("getfilmes")]
         [HttpGet]
         public IEnumerable<Filme> GetFilmes(int skip, int take)
